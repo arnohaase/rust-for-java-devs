@@ -138,6 +138,26 @@ The take-away is this: `Box` is great for learning lifecycle concepts, but if
 you hit a wall trying to do stuff that "should be simple", try `Arc` instead.
 And don't worry, this will feel natural pretty soon.
 
+### Design for ownership and mutability
+
+One of the Rust's core rules basically says that **mutation requires exclusive 
+access**. This is of course a simplification, and there are ways around this
+(`Cell`, atomic data types, ...), but the rule is pretty fundamental and is
+omnipresent in practice. 
+
+It boils down to "shared state is read-only". You can work around this e.g. by
+adding a `Mutex` as a level of indirection and keep doing Java-style design, 
+but that will likely feel weird and complex. 
+
+In idiomatic Rust, you plan your abstractions and data structures around 
+ownership and mutability. It may lead to splits between mutable and immutable
+data that you would combine into a single Java class.  
+
+Question your Java-based intuition and experience for creating abstractions,
+and embrace Rust design as a new paradigm. That will probably feel weird at 
+first (it did for me), but it will likely lead to new insights as well once
+you embrace it.   
+
 ### Traits, Fat Pointers and Dynamically Sized Types
 
 In memory, a Rust `struct` consists only of its fields. There is no run-time
