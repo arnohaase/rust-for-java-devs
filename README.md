@@ -100,11 +100,18 @@ enum InetAddress {
 ``` 
 
 This is completely different from Java: `V4` has different **instances** holding
-the actual IP address. 
+actual IP addresses. 
 
-This is the primary means of doing polymorphism in Rust. An `enum` defines a 
-polymorphic supertype with a fixed number of subtypes. Polymorphic methods then
-do a `match` (the Rust equivalent of Java's `switch`) over the different kinds. 
+In Rust, this is a solution for many problems where you would use inheritance
+in Java. A Rust `enum` has a fixed number of variants that can each have different
+kinds of data, and functions can pattern match (Rust's more powerful equivalent
+of Java's `switch`) to handle different variants.  
+
+Technically, this is not polymorphism but 
+[Algebraic Types](https://en.wikipedia.org/wiki/Algebraic_data_type). But if
+feel like "I'd like some polymorphism here", you should start by trying to
+model that using enums. At least while you get started, so you get a feel
+for this language feature which Java does not have.
 
 If you are like me, this might raise a lot of concerns and leave you wondering
 "how do I do X". 
@@ -205,9 +212,6 @@ that.
 
 #### The take-away
 
-The take-away from this is two-fold:
-
-* Use enums instead of traits for polymorphism when possible. Rust traits have
-totally different idioms from Java interfaces.
-* If you feel you really must use traits polymorphically (and there are actually
-good reasons for that), always pass them around through pointers.
+Rust sometimes exposes you as a programmer to memory layout issues. Rust
+focuses on doing stuff at compile time, therefore some stuff requires data
+size to be known at compile time.
