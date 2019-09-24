@@ -35,11 +35,15 @@ There are detailed sections for these below.
 
 Rust is built around the concept of checking stuff at compile time. This can get
 in the way. Especially while you get started, this will probably often feel like 
-"Leave me alone already, I know what I'm doing!". There are idioms to work with
-this, and once you get the hang of it, it really helps writing robust and readable
-code. But these idioms can be very different from what you are used to, and they
-will take time to learn.
+"Leave me alone already, I know what I'm doing!". Well, that's intentional, and
+stringent compile time checks are at the heart of Rust's language design. 
 
+If you write something you think is correct but the compiler disagrees, that 
+is often a sign of a subtle bug. So learn to see compiler checks as your friend
+and not a necessary evil. 
+
+Doing this will require you to unlearn some Java best practices and learn
+idiomatic ways to work with Rust and allow the compiler to do its checks.
 Acknowledge and embrace this - if you don't want that, Rust probably isn't the 
 language for you.
 
@@ -60,9 +64,13 @@ In hindsight, that is not a problem. It's just that other modern languages like
 Java (or C++, for that matter) support these things as part of their core 
 language, and I struggled for a while trying to do these things "directly".
 
-My point is: While getting started, treat `Vec` and `Box` (and other kinds of
-pointers, see the separate section below for details) as part of the language
-core.  
+My point is: While `Vec` and `Box` are part of the library, you will really
+really need them to take your first steps with Rust. There is no easy way
+to work with pointers or dynamically allocated lists without using "just
+language features". 
+
+Embrace them and treat them as if they were part of the language core, at least until you know 
+enough to understand how they are implemented.
 
 ## Features
 
@@ -85,6 +93,24 @@ And finally, arrays do **not** involve a pointer. An array can be allocated on t
 stack, and if an array is part of a struct, it is part of that struct's flat memory
 layout. Like any other data type, an array must reside behind a pointer in order
 to live on the heap.
+
+### Slices
+
+Rust has *slices*, which are pointers to an array or part of it. They are
+"fat" pointers that contain length information which is checked at runtime and
+not part of the slice type. 
+
+Slices have a type signature similar to arrays: `[u8;2]` is a byte array
+while `[u8]` is a slice of bytes. Though they look similar in code, they are
+very different beasts:
+
+* A slice **never owns** data. It is just a (borrowed) **view** to data owned
+e.g. by an array.
+* There is no way to allocate a slice directly. Slices are **not** a way to 
+dynamically allocate memory. 
+
+Slices are part of Rust's language core which may take some getting used to
+coming from Java.
 
 ### Enums and polymorphism
 
